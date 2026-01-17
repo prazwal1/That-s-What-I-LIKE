@@ -61,8 +61,10 @@ def find_similar_words(word, top_k=10):
     word_idx = word2index[word]
     query_vec = embeddings[word_idx]
     
-    # Compute similarities
-    similarities = embeddings @ query_vec
+    # Compute cosine similarities: (A·B) / (||A|| * ||B||)
+    query_norm = query_vec / (torch.norm(query_vec) + 1e-8)
+    emb_norms = embeddings / (torch.norm(embeddings, dim=1, keepdim=True) + 1e-8)
+    similarities = emb_norms @ query_norm
     similarities[word_idx] = -1e9  # Exclude self
     
     top_indices = torch.topk(similarities, top_k).indices
@@ -97,8 +99,10 @@ def find_contexts(query_text, window=5, top_k=20):
     query_indices = [word2index[w] for w in valid_words]
     query_vec = embeddings[query_indices].mean(dim=0)
     
-    # Find similar words based on averaged embedding
-    similarities = embeddings @ query_vec
+    # Find similar words based on averaged embedding using cosine similarity
+    query_norm = query_vec / (torch.norm(query_vec) + 1e-8)
+    emb_norms = embeddings / (torch.norm(embeddings, dim=1, keepdim=True) + 1e-8)
+    similarities = emb_norms @ query_norm
     # Exclude query words from similar words
     for idx in query_indices:
         similarities[idx] = -1e9
@@ -197,7 +201,7 @@ if __name__ == '__main__':
     print("Starting NewsFind Application...")
     
     # Load data
-    load_data(model_name='glove')  # Change to your best model
+    load_data(model_name='skipgram_neg')  
     
     print("\nApplication ready!")
     print("Open: http://localhost:5000")
