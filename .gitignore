@@ -1,0 +1,24 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.ipynb_checkpoints
+*.egg-info
+app
+data/corpora
+data/tokenizers
+*.zip
+*.tsv
+instructions.txt
+*.tab
+set*.csv
+lecture_notes
+notes
+pyproject.toml
+uv.lock
+.python-version
+
+# Virtual environments
+.venv

@@ -1,0 +1,55 @@
+{
+  "num_docs": 10788,
+  "sample_docs": [
+    {
+      "doc_id": "test/14826",
+      "raw_text": "asian exporters fear damage from u.s.-japan rift mounting trade friction between the u.s. and japan has raised fears among many of asia's exporting nations that the row could inflict far-reaching econ...",
+      "num_tokens": 713
+    },
+    {
+      "doc_id": "test/14828",
+      "raw_text": "china daily says vermin eat 7-12 pct grain stocks a survey of 19 provinces and seven cities showed vermin consume between seven and 12 pct of china's grain stocks, the china daily said. it also said t...",
+      "num_tokens": 108
+    },
+    {
+      "doc_id": "test/14829",
+      "raw_text": "japan to revise long-term energy demand downwards the ministry of international trade and industry (miti) will revise its long-term energy supply/demand outlook by august to meet a forecast downtrend ...",
+      "num_tokens": 173
+    },
+    {
+      "doc_id": "test/14832",
+      "raw_text": "thai trade deficit widens in first quarter thailand's trade deficit widened to 4.5 billion baht in the first quarter of 1987 from 2.1 billion a year ago, the business economics department said. it sai...",
+      "num_tokens": 148
+    },
+    {
+      "doc_id": "test/14833",
+      "raw_text": "indonesia sees cpo price rising sharply indonesia expects crude palm oil (cpo) prices to rise sharply to between 450 and 550 dlrs a tonne fob sometime this year because of better european demand and a...",
+      "num_tokens": 158
+    },
+    {
+      "doc_id": "test/14839",
+      "raw_text": "australian foreign ship ban ends but nsw ports hit tug crews in new south wales (nsw), victoria and western australia yesterday lifted their ban on foreign-flag ships carrying containers but nsw ports...",
+      "num_tokens": 203
+    },
+    {
+      "doc_id": "test/14840",
+      "raw_text": "indonesian commodity exchange may expand the indonesian commodity exchange is likely to start trading in at least one new commodity, and possibly two, during calendar 1987, exchange chairman paian nai...",
+      "num_tokens": 387
+    },
+    {
+      "doc_id": "test/14841",
+      "raw_text": "sri lanka gets usda approval for wheat price food department officials said the u.s. department of agriculture approved the continental grain co sale of 52,500 tonnes of soft wheat at 89 u.s. dlrs a t...",
+      "num_tokens": 54
+    },
+    {
+      "doc_id": "test/14842",
+      "raw_text": "western mining to open new gold mine in australia western mining corp holdings ltd &lt;wmng.s> (wmc) said it will establish a new joint venture gold mine in the northern territory at a cost of about 2...",
+      "num_tokens": 120
+    },
+    {
+      "doc_id": "test/14843",
+      "raw_text": "sumitomo bank aims at quick recovery from merger sumitomo bank ltd &lt;sumi.t> is certain to lose its status as japan's most profitable bank as a result of its merger with the heiwa sogo bank, financi...",
+      "num_tokens": 670
+    }
+  ]
+}
