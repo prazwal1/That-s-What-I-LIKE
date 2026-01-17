@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This assignment, **A1: That's What I LIKE**, focuses on developing a semantic search system that retrieves the top paragraphs from a corpus with the most similar context to a user query (e.g., "Harry Potter"). The core of the system relies on word embeddings, which capture semantic and syntactic relationships between words in a vector space. By training custom implementations of **Word2Vec** (Mikolov et al., 2013) and **GloVe** (Pennington et al., 2014) from scratch—building upon class code—we explore predictive and count-based approaches to embedding learning. These models are evaluated on training efficiency, word analogy tasks, and correlation with human similarity judgments, before deploying a simple web interface for querying.
+This assignment, **A1: That's What I LIKE**, focuses on developing a semantic search system that retrieves the top paragraphs from a corpus with the most similar context to a user query (e.g., "Harry Potter"). The core of the system relies on word embeddings, which capture semantic and syntactic relationships between words in a vector space. By training custom implementations of **Word2Vec** (Mikolov et al., 2013) and **GloVe** (Pennington et al., 2014) from scratch, building upon class code, we explore predictive and count-based approaches to embedding learning. These models are evaluated on training efficiency, word analogy tasks, and correlation with human similarity judgments, before deploying a simple web interface for querying.
 
 #### Key Summary of the Word2Vec Paper  
 **Efficient Estimation of Word Representations in Vector Space** (Mikolov et al., 2013) introduces the Skip-gram model, which efficiently learns high-quality distributed representations of words by predicting surrounding context words given a target word. Unlike earlier models that used dense softmax over the entire vocabulary (computationally expensive), the paper proposes **negative sampling**—an approximation that samples a small number of negative (incorrect) context words and uses sigmoid loss to distinguish positive from negative pairs. This speeds up training dramatically while preserving quality. The embeddings enable arithmetic analogies (e.g., king - man + woman ≈ queen) due to their linear substructure. Key contributions include scalability to large corpora, superior performance on word similarity and analogy tasks, and the insight that local context prediction captures rich semantics.
@@ -93,10 +93,15 @@ Used dot product for model similarities and Spearman rank correlation with human
 **Discussion**: Low/negative correlations for custom models reflect corpus limitations (small vocab, domain-specific news). Gensim's higher value shows pre-trained benefits. Dot product was used as per task; cosine similarity yielded similar trends.
 
 ## Web Application Usage
-- The app uses Flask and loads pre-trained embeddings (GloVe by default) from `data/`.
+
+### 🌐 Live Demo
+**The NewsFind application is live at:** [https://newsfind.ambitiousisland-1be3b1ed.southeastasia.azurecontainerapps.io/](https://newsfind.ambitiousisland-1be3b1ed.southeastasia.azurecontainerapps.io/)
+
+### Features
+- The app uses Flask and loads pre-trained embeddings (Skipgram Negative by default) from `data/`.
 - Paragraph embeddings: Averaged word vectors.
-- Similarity: Dot product between query and paragraph vectors.
+- Similarity: Cosine similarity between query and paragraph vectors.
 - Example: Query "oil prices" returns news-related paragraphs from Reuters.
-- Limitations: Handles OOV by ignoring; extend with better aggregation (e.g., TF-IDF weighting).
+- Limitations: Results are unreliable due to training on a very small dataset and for an insufficient number of epochs, which prevents the model from learning stable and generalizable vector embeddings.
 
 
