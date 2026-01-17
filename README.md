@@ -16,17 +16,18 @@ By implementing and comparing these models on a real-world corpus (NLTK Reuters 
 
 This repository contains the implementation for AT82.05 Artificial Intelligence: Natural Language Understanding (NLU) Assignment 1. It includes:
 - Custom modifications to Word2Vec (Skip-gram with and without negative sampling) and GloVe models, with dynamic window size support.
-- Training on the NLTK Reuters corpus (news categories: 'crude' and 'money-fx').
+- Training on the NLTK Reuters corpus.
 - Evaluation on training loss/time, word analogies (semantic: capital-common-countries; syntactic: past-tense), and Spearman correlation with human similarity judgments (WordSim-353 dataset).
 - A simple Flask-based web application for semantic search, retrieving the top-10 similar paragraphs based on query embeddings (using averaged word vectors and dot product similarity).
 
 Key parameters used:
-- Vector size: 50
-- Epochs: 5
-- Window size: 2 (default; experimented with 5 for comparison)
+- Vector size: 32
+- Epochs: 10000
+- Window size: 2
+- Batch size: 64
 - Low accuracies are expected due to small corpus size, as noted in the assignment.
 
-Dataset Credits:
+**Dataset Credits:**
 - Corpus: NLTK Reuters dataset (public domain, available at https://www.nltk.org/).
 - Word Analogies: From https://www.fit.vutbr.cz/~imikolov/rnnlm/word-test.v1.txt (Mikolov et al.).
 - WordSim-353: From http://alfonseca.org/eng/research/wordsim353.html (Finkelstein et al.).
@@ -35,7 +36,7 @@ Dataset Credits:
 
 1. **Clone the Repository**:
    ```
-   git clone https://github.com/yourusername/A1_Thats_What_I_LIKE.git
+   git clone https://github.com/prazwal1/That-s-What-I-LIKE.git
    cd A1_Thats_What_I_LIKE
    ```
 
@@ -49,7 +50,7 @@ Dataset Credits:
 
 3. **Download NLTK Data**:
    ```
-   python -c "import nltk; nltk.download('reuters'); nltk.download('punkt'); nltk.download('stopwords')"
+   python -c "import nltk; nltk.download('reuters')"
    ```
 
 4. **Run the Notebook** (A1_notebook.ipynb):
