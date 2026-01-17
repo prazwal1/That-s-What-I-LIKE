@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsFind - AI-Powered News Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .top-bar {
+            background: #1a1a1a;
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 3px solid #e74c3c;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            font-family: 'Georgia', serif;
+            text-align: center;
+        }
+
+        .header .tagline {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            font-family: 'Georgia', serif;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 0;
+            border: 1px solid #ddd;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 0;
+            transition: border-color 0.2s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+
+        #searchBtn {
+            padding: 12px 32px;
+            font-size: 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        #searchBtn:hover {
+            background: #c0392b;
+        }
+
+        #searchBtn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .examples {
+            font-size: 13px;
+            color: #888;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .examples span {
+            color: #e74c3c;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+            font-weight: 500;
+        }
+
+        .examples span:hover {
+            border-bottom: 1px solid #e74c3c;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        .main-content {
+            background: white;
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .similar-words {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .similar-words h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            font-family: 'Georgia', serif;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+
+        .related-link {
+            display: block;
+            padding: 10px 0;
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .related-link:hover {
+            color: #e74c3c;
+            padding-left: 8px;
+            background: #f8f9fa;
+        }
+
+        .related-link .arrow {
+            color: #e74c3c;
+            margin-right: 6px;
+        }
+
+        .similarity-badge {
+            float: right;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .contexts {
+            
+        }
+
+        .contexts h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+        }
+
+        .contexts .subheader {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .news-item {
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .news-category {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-id {
+            color: #999;
+            font-family: 'Courier New', monospace;
+        }
+
+        .match-badge {
+            background: #27ae60;
+            color: white;
+            padding: 3px 8px;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .news-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+
+        .news-content strong {
+            background: #fff3cd;
+            padding: 2px 4px;
+            font-weight: 600;
+            color: #856404;
+        }
+
+        .news-snippet {
+            font-size: 14px;
+            color: #7f8c8d;
+            padding: 12px;
+            background: #f8f9fa;
+            border-left: 3px solid #e74c3c;
+            font-style: italic;
+        }
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 16px 20px;
+            border-radius: 0;
+            border-left: 4px solid #c33;
+            margin-bottom: 24px;
+            display: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 40px;
+            color: #999;
+            font-size: 18px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .results.show {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        AI-Powered News Discovery • Semantic Search Technology
+    </div>
+
+    <div class="header">
+        <div class="container">
+            <h1>📰 NewsFind</h1>
+            <p class="tagline">Discover news through intelligent semantic search</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="Search for news topics (e.g., 'economy trade', 'government policy')..." />
+                <button id="searchBtn">Search News</button>
+            </div>
+            <div class="examples">
+                Popular topics: 
+                <span onclick="searchWord('economy')">economy</span>, 
+                <span onclick="searchWord('government')">government</span>, 
+                <span onclick="searchWord('bank finance')">bank finance</span>, 
+                <span onclick="searchWord('trade market')">trade market</span>,
+                <span onclick="searchWord('technology')">technology</span>
+            </div>
+        </div>
+
+        <div class="error" id="errorBox"></div>
+
+        <div class="results" id="results">
+            <div class="main-content">
+                <div class="contexts">
+                    <h2>Top Stories</h2>
+                    <div class="subheader" id="contextCount"></div>
+                    <div id="contextList"></div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="similar-words">
+                    <h2>Related Stories</h2>
+                    <div id="similarWords"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const results = document.getElementById('results');
+        const errorBox = document.getElementById('errorBox');
+        const similarWords = document.getElementById('similarWords');
+        const contextList = document.getElementById('contextList');
+        const contextCount = document.getElementById('contextCount');
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        searchBtn.addEventListener('click', performSearch);
+
+        function searchWord(word) {
+            searchInput.value = word;
+            performSearch();
+        }
+
+        async function performSearch() {
+            const query = searchInput.value.trim();
+            
+            if (!query) {
+                showError('Please enter a word to search');
+                return;
+            }
+
+            // Reset UI
+            errorBox.classList.remove('show');
+            results.classList.remove('show');
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '<span class="spinner"></span> Finding news...';
+
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+
+                displayResults(data);
+            } catch (error) {
+                showError('Failed to fetch results. Please try again.');
+                console.error('Error:', error);
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Search News';
+            }
+        }
+
+        function showError(message) {
+            errorBox.textContent = message;
+            errorBox.classList.add('show');
+            setTimeout(() => {
+                errorBox.classList.remove('show');
+            }, 5000);
+        }
+
+        function displayResults(data) {
+            // Display related stories (similar words as clickable links)
+            similarWords.innerHTML = '';
+            data.similar_words.forEach((item, idx) => {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.className = 'related-link';
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    searchWord(item.word);
+                };
+                link.innerHTML = `
+                    <span class="arrow">▸</span>
+                    ${item.word}
+                    <span class="similarity-badge">${(item.similarity * 100).toFixed(0)}%</span>
+                `;
+                similarWords.appendChild(link);
+            });
+
+            // Display news stories
+            const queryInfo = data.num_words > 1 
+                ? `Found ${data.num_found} stories matching "${data.query}"` 
+                : `Found ${data.num_found} stories about "${data.query}"`;
+            
+            contextCount.textContent = queryInfo;
+            contextList.innerHTML = '';
+
+            if (data.contexts.length === 0) {
+                contextList.innerHTML = '<div class="no-results">📭 No news stories found for this search</div>';
+            } else {
+                data.contexts.forEach((ctx, idx) => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+                    
+                    const matchPercent = (ctx.similarity * 100).toFixed(0);
+                    
+                    newsItem.innerHTML = `
+                        <div class="news-meta">
+                            <span class="news-category">News</span>
+                            <span class="doc-id">${ctx.doc_id}</span>
+                            <span class="match-badge">${matchPercent}% Match</span>
+                        </div>
+                        <div class="news-content">${highlightTarget(ctx.context, ctx.target_word)}</div>
+                        <div class="news-snippet">
+                            📄 ${ctx.snippet}...
+                        </div>
+                    `;
+                    contextList.appendChild(newsItem);
+                });
+            }
+
+            results.classList.add('show');
+        }
+
+        function highlightTarget(context, targetWord) {
+            const words = context.split(' ');
+            return words.map(word => {
+                if (word.toLowerCase() === targetWord.toLowerCase()) {
+                    return `<strong>${word}</strong>`;
+                }
+                return word;
+            }).join(' ');
+        }
+    </script>
+</body>
+</html>

@@ -6,7 +6,6 @@ dist/
 wheels/
 *.ipynb_checkpoints
 *.egg-info
-app
 data/corpora
 data/tokenizers
 *.zip
@@ -19,6 +18,6 @@ notes
 pyproject.toml
 uv.lock
 .python-version
-
+app/exports
 # Virtual environments
 .venv
