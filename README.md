@@ -73,9 +73,9 @@ Models were trained with window size=2, vector size=50, epochs=5. Skip-gram NEG 
 
 | Model            | Window Size | Training Loss | Training Time (s) | Semantic Accuracy | Syntactic Accuracy |
 |------------------|-------------|---------------|-------------------|-------------------|--------------------|
-| Skipgram        | 2          | 13.726706    | 3783.448128      | 0.000000         | 0.000000          |
-| Skipgram (NEG)  | 2          | 4.279615     | 230.880975       | 0.000000         | 0.000000          |
-| GloVe           | 2          | 698.010717   | 212.801008       | 0.000000         | 0.000000          |
+| Skipgram        | 2          | 14.015706   | 2381.642795      | 0.000000         | 0.000000          |
+| Skipgram (NEG)  | 2          | 4.013362     | 121.154085       | 0.000000         | 0.000000          |
+| GloVe           | 2          | 651.960608   | 125.8015       | 0.000000         | 0.000000          |
 | Gensim (GloVe)  | -          | -            | -                | 0.894433         | 0.554487          |
 
 **Discussion**: Custom models showed 0% accuracy on analogies due to limited corpus size (as expected per assignment note). Gensim performed well, highlighting the need for larger data. Experiment: With window=5, training time increased ~1.5x for Skip-gram, but semantic accuracy remained low; correlations improved slightly (e.g., +0.02 for NEG).
@@ -85,9 +85,9 @@ Used dot product for model similarities and Spearman rank correlation with human
 
 | Model            | Spearman Correlation |
 |------------------|----------------------|
-| Skipgram        | 0.010459            |
-| Skipgram (NEG)  | 0.059556            |
-| GloVe           | -0.029026           |
+| Skipgram        | 0.119646           |
+| Skipgram (NEG)  | 0.005936            |
+| GloVe           | 0.116419           |
 | Gensim (GloVe)  | 0.532735            |
 
 **Discussion**: Low/negative correlations for custom models reflect corpus limitations (small vocab, domain-specific news). Gensim's higher value shows pre-trained benefits. Dot product was used as per task; cosine similarity yielded similar trends.
